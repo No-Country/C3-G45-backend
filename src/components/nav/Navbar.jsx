@@ -1,4 +1,4 @@
-import logo from '../../img/DuaLipaLogo2020.png';
+import logo from '../../assets/img/DuaLipaLogo2020.png';
 import './nav.css';
 import React from 'react';
 

@@ -10,13 +10,13 @@ const Footer = () => {
                 <p>Política de Garantías | Libro de reclamos</p>
             </div>
             <div className="col-md-6 ">
-                <a href="">
+                <a href="#">
                     <i className="fab fa-instagram me-3 ms-3"></i>
                 </a>
-                <a href="">
+                <a href="#">
                     <i className="fab fa-facebook me-3 ms-3"></i>
                 </a>
-                <a href="">
+                <a href="#">
                     <i className="fab fa-twitter me-3 ms-3"></i>
                 </a>
             </div>
