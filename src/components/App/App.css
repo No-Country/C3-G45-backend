@@ -1,27 +1,40 @@
+/* @import '../../assets/scss/colors'; */
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App-main{
+  height: 48.5rem;
+  background-color: #90171C;
+  color: white;
+  text-align: start;
 }
+
+.App-background{
+  height: 48.5rem;
+  background-image: url(../../img/background.jpg);
+  background-position: center;
+  background-size: cover;
+}
+
+.App-main span{
+  font-size: 1.2rem;
+}
+
+.fa-angle-down{
+  color: #7622F0;
+  font-size: 5rem;
+}
+
+/* .App-background .row{
+  height: 48.5rem;
+} */
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-link {
