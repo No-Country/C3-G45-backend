@@ -3,16 +3,22 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Product
-from .serializers import ProductSerializer
+from .models import Product, Event
+from .serializers import ProductSerializer, EventSerializer
 
 
-class LatestProductsList(APIView):
+class ProductsList(APIView):
     def get(self, request, format=None):
         products = Product.objects.all()[0:4]
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
+class EventsList(APIView):
+    def get(self, request, format=None):
+        events =Event.objects.all()[0:4]
+        serializer = EventSerializer(events, many=True)
+        return Response(serializer.data)
+        
 class ProductDetail(APIView):
     def get_object(self, category_slug, product_slug):
         try:
