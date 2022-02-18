@@ -19,7 +19,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
+        model = Event
         fields = (
             "id",
             "name",
@@ -32,4 +32,19 @@ class EventSerializer(serializers.ModelSerializer):
             "status",
             "get_image",
             "get_thumbnail"
+        )
+
+class CategorySerializer(serializers.ModelSerializer):
+    products = ProductSerializer(many=True)
+    events = EventSerializer(many=True)
+
+    class Meta:
+        model = Category
+        fields = (
+            "id",
+            "name",
+            "artista",
+            "get_absolute_url",
+            "products",
+            "events"
         )

@@ -4,7 +4,9 @@ from django.core.files import File
 from django.db import models
 
 class Category(models.Model):
+    # tour/gira
     name = models.CharField(max_length=255)
+    artista= models.CharField(max_length=255, null=True)
     slug = models.SlugField()
 
     class Meta:
@@ -12,9 +14,6 @@ class Category(models.Model):
     
     def __str__(self):
         return self.name
-    
-    def get_absolute_url(self):
-        return f'/{self.slug}/'
 
 class Status(models.Model):
     event_status = models.CharField(max_length=255)
@@ -23,7 +22,7 @@ class Status(models.Model):
     
     def __str__(self):
         return self.event_status
-        
+
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
