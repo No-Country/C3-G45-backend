@@ -15,22 +15,20 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-class Status(models.Model):
-    event_status = models.CharField(max_length=255)
-    class Meta:
-        ordering = ('event_status',)
-    
-    def __str__(self):
-        return self.event_status
 
 class Product(models.Model):
+    STATUS_PRODUCT=(
+        ('DISPONIBLE', 'disponible'),
+        ('AGOTADO','agotado'),
+        
+    )
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=50)
     slug = models.SlugField()
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     stock=models.IntegerField(blank=True, null=True)
-    status= models.BooleanField(default=True)
+    status_product= models.CharField(max_length=20, choices=STATUS_PRODUCT, default=STATUS_PRODUCT[0][0])
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='uploads/', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -74,13 +72,20 @@ class Product(models.Model):
 
 
 class Event(models.Model):
+    EVENT_STATUS=(
+        ('PRONTO','pronto'),
+        ('PREVENTA','preventa'),
+        ('DISPONIBLE','disponible'),
+        ('AGOTADO','agotado'),
+        ('SUSPENDIDO','suspendido')          
+    )
     category = models.ForeignKey(Category, related_name='events', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     slug = models.SlugField()
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     stock=models.IntegerField(blank=True, null=True)
-    status= models.ForeignKey(Status, related_name='events', on_delete=models.CASCADE)
+    status_event= models.CharField(max_length=15, choices=EVENT_STATUS, null=True,default=EVENT_STATUS[0][0])
     image = models.ImageField(upload_to='events/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='events/', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -126,5 +131,15 @@ class Event(models.Model):
         return thumbnail
 
 
+class Order(models.Model):
+    product_order= models.ForeignKey(Product, on_delete=models.CASCADE)
+    event_order=models.ForeignKey(Event, on_delete=models.CASCADE)
+    quantity_product=models.IntegerField()
+    quantity_event=models.IntegerField()
+    created_at= models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f"<Order {self.product_order} {self.event_order}>"
+    
     

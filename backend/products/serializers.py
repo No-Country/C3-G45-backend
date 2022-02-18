@@ -12,7 +12,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "description",
             "price",
             "stock",
-            "status",
+            "status_product",
             "get_image",
             "get_thumbnail"
         )
@@ -29,7 +29,7 @@ class EventSerializer(serializers.ModelSerializer):
             "event_site",
             "price",
             "stock",
-            "status",
+            "status_event",
             "get_image",
             "get_thumbnail"
         )
