@@ -16,6 +16,14 @@ class Category(models.Model):
     def get_absolute_url(self):
         return f'/{self.slug}/'
 
+class Status(models.Model):
+    event_status = models.CharField(max_length=255)
+    class Meta:
+        ordering = ('event_status',)
+    
+    def __str__(self):
+        return self.event_status
+        
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -27,7 +35,6 @@ class Product(models.Model):
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='uploads/', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
-
     class Meta:
         ordering = ('-date_added',)
     
@@ -74,13 +81,12 @@ class Event(models.Model):
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     stock=models.IntegerField(blank=True, null=True)
-    status= models.BooleanField(default=True)
+    status= models.ForeignKey(Status, related_name='events', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='events/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='events/', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_event= models.DateTimeField()
     event_site= models.CharField(max_length=255)
-
 
     class Meta:
         ordering = ('-date_added',)
@@ -119,3 +125,7 @@ class Event(models.Model):
         thumbnail = File(thumb_io, name=image.name)
 
         return thumbnail
+
+
+
+    

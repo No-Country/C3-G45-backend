@@ -11,6 +11,8 @@ class ProductSerializer(serializers.ModelSerializer):
             "get_absolute_url",
             "description",
             "price",
+            "stock",
+            "status",
             "get_image",
             "get_thumbnail"
         )
@@ -23,7 +25,11 @@ class EventSerializer(serializers.ModelSerializer):
             "name",
             "get_absolute_url",
             "description",
+            "date_event",
+            "event_site",
             "price",
+            "stock",
+            "status",
             "get_image",
             "get_thumbnail"
         )
