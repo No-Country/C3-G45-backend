@@ -30,3 +30,15 @@ class ProductDetail(APIView):
         product = self.get_object(category_slug, product_slug)
         serializer = ProductSerializer(product)
         return Response(serializer.data)
+
+class EventDetail(APIView):
+    def get_object(self, category_slug, event_slug):
+        try:
+            return Event.objects.filter(category__slug=category_slug).get(slug=event_slug)
+        except Event.DoesNotExist:
+            raise Http404
+    
+    def get(self, request, category_slug, event_slug, format=None):
+        event = self.get_object(category_slug, event_slug)
+        serializer = EventSerializer(event)
+        return Response(serializer.data)
