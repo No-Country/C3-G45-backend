@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Category, Product, Event
+from .models import Category, Product, Event,Order
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,4 +47,19 @@ class CategorySerializer(serializers.ModelSerializer):
             "get_absolute_url",
             "products",
             "events"
+        )
+
+class OrderSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(many=True)
+    class Meta:
+        model = Order
+        fields = (
+            "curtomer",
+            "product_order",
+            "event_order",
+            "quantity_event",
+            "quantity_product",
+            "created_at",
+            "updated_at",
+            "category"
         )

@@ -2,7 +2,9 @@ from io import BytesIO
 from PIL import Image
 from django.core.files import File
 from django.db import models
+from django.contrib.auth import get_user_model
 
+User=get_user_model()
 class Category(models.Model):
     # tour/gira
     name = models.CharField(max_length=255)
@@ -132,14 +134,16 @@ class Event(models.Model):
 
 
 class Order(models.Model):
+    customer=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     product_order= models.ForeignKey(Product, on_delete=models.CASCADE)
-    event_order=models.ForeignKey(Event, on_delete=models.CASCADE)
+    #event_order=models.ForeignKey(Event, on_delete=models.CASCADE)
     quantity_product=models.IntegerField()
-    quantity_event=models.IntegerField()
+    #quantity_event=models.IntegerField()
     created_at= models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"<Order {self.product_order} {self.event_order}>"
+        #{self.product_order} or {self.event_order}
+        return f"<Order  by {self.customer}>"
     
     
