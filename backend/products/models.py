@@ -135,8 +135,8 @@ class Event(models.Model):
 
 class Order(models.Model):
     customer=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
-    product_order= models.ForeignKey(Product, on_delete=models.CASCADE)
-    #event_order=models.ForeignKey(Event, on_delete=models.CASCADE)
+    product_order= models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
+    event_order=models.ForeignKey(Event, on_delete=models.CASCADE,null=True)
     quantity_product=models.IntegerField()
     #quantity_event=models.IntegerField()
     created_at= models.DateTimeField(auto_now_add=True)
