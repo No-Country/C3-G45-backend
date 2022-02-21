@@ -3,10 +3,17 @@ from django.urls import path, include
 from products import views
 
 urlpatterns = [
-    path('product-list/', views.ProductsList.as_view()),
-    path('products/<slug:category_slug>/<slug:product_slug>/', views.ProductDetail.as_view()),
+    # events path
     path('event-list/', views.EventsList.as_view()),
-path('events/<slug:category_slug>/<slug:event_slug>/', views.EventDetail.as_view()),
-    path('products/<slug:category_slug>/', views.CategoryDetail.as_view()),
+
+    #product paths
+    path('product-list/', views.ProductsList.as_view()),
+    #path('products/<slug:event_slug>/<slug:product_slug>/', views.ProductDetail.as_view()),
+
+    #ticket paths
+    #path('ticket-list/', views.TicketsList.as_view()),
+    #path('tickets/<slug:event_slug>/<slug:ticket_slug>/', views.TicketDetail.as_view()),
+
+    #path('products/<slug:event_slug>/', views.TourDetail.as_view()),
     #admin authntication
 ]

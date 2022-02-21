@@ -36,12 +36,13 @@ class CustomUserManager(BaseUserManager):
 
 class User(AbstractUser):
     username=models.CharField(_('Username'), max_length=40,unique=True)
-    name=models.CharField(_('Name'), max_length=40,unique=False)
+    first_name=models.CharField(_('First Name'), max_length=40,unique=False)
+    last_name=models.CharField(_('Last Name'), max_length=40,unique=False)
     email=models.EmailField(_('Email'), max_length=80,unique=True)
-    date_joined=models.DateTimeField(_('Date'),auto_now_add=True)
+    created_at=models.DateTimeField(_('Date'),auto_now_add=True)
 
 
-    REQUIRED_FIELDS=['username','name']
+    REQUIRED_FIELDS=['username','first_name']
     USERNAME_FIELD='email'
 
     def __str__(self):

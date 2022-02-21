@@ -1,8 +1,61 @@
 from rest_framework import serializers
+from .models import Tour, Product, Event,Order
 
-from .models import Category, Product, Event,Order
 
 class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = (
+            "id",
+            "name_product",
+            "get_absolute_url",
+            "description",
+            "price",
+            "stock",
+            "get_image",
+            "get_thumbnail"
+        )
+
+class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = (
+            "id",
+            "name_ticket",
+            "get_absolute_url",
+            "description",
+            "price",
+            "stock",
+            "get_image",
+            "get_thumbnail"
+        )
+
+class EventSerializer(serializers.ModelSerializer):
+    products = ProductSerializer(many=True)
+    tickets = TicketSerializer(many=True)
+
+
+    class Meta:
+        model = Event
+        fields = (
+            "id",
+            "name_event",
+            "description",           
+            "status_event",
+            "get_image",
+            "get_thumbnail",
+            "date_event",
+            "city",
+            "location",
+            "get_absolute_url",
+            "products",
+            "tickets",
+        )
+
+""" 
+
+class ProductSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Product
         fields = (
@@ -17,29 +70,12 @@ class ProductSerializer(serializers.ModelSerializer):
             "get_thumbnail"
         )
 
-class EventSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Event
-        fields = (
-            "id",
-            "name",
-            "get_absolute_url",
-            "description",
-            "date_event",
-            "event_site",
-            "price",
-            "stock",
-            "status_event",
-            "get_image",
-            "get_thumbnail"
-        )
-
-class CategorySerializer(serializers.ModelSerializer):
+class TourSerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True)
     events = EventSerializer(many=True)
 
     class Meta:
-        model = Category
+        model = Tour
         fields = (
             "id",
             "name",
@@ -50,7 +86,7 @@ class CategorySerializer(serializers.ModelSerializer):
         )
 
 class OrderSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(many=True)
+    tour = TourSerializer(many=True)
     class Meta:
         model = Order
         fields = (
@@ -61,5 +97,6 @@ class OrderSerializer(serializers.ModelSerializer):
             "quantity_product",
             "created_at",
             "updated_at",
-            "category"
+            "our"
         )
+ """

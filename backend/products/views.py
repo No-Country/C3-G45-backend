@@ -3,15 +3,8 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Product, Event, Category
-from .serializers import ProductSerializer, EventSerializer, CategorySerializer
-
-
-class ProductsList(APIView):
-    def get(self, request, format=None):
-        products = Product.objects.all()[0:4]
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
+from .models import Product, Event, Tour
+from .serializers import ProductSerializer, EventSerializer
 
 class EventsList(APIView):
     def get(self, request, format=None):
@@ -19,39 +12,15 @@ class EventsList(APIView):
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
         
-class ProductDetail(APIView):
-    def get_object(self, category_slug, product_slug):
-        try:
-            return Product.objects.filter(category__slug=category_slug).get(slug=product_slug)
-        except Product.DoesNotExist:
-            raise Http404
-    
-    def get(self, request, category_slug, product_slug, format=None):
-        product = self.get_object(category_slug, product_slug)
-        serializer = ProductSerializer(product)
+
+class ProductsList(APIView):
+    def get(self, request, format=None):
+        products = Product.objects.all()[0:4]
+        serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
-class EventDetail(APIView):
-    def get_object(self, category_slug, event_slug):
-        try:
-            return Event.objects.filter(category__slug=category_slug).get(slug=event_slug)
-        except Event.DoesNotExist:
-            raise Http404
-    
-    def get(self, request, category_slug, event_slug, format=None):
-        event = self.get_object(category_slug, event_slug)
-        serializer = EventSerializer(event)
-        return Response(serializer.data)
-
-
-class CategoryDetail(APIView):
-    def get_object(self, category_slug):
-        try:
-            return Category.objects.get(slug=category_slug)
-        except Category.DoesNotExist:
-            raise Http404
-    
-    def get(self, request, category_slug, format=None):
-        category = self.get_object(category_slug)
-        serializer = CategorySerializer(category)
+class TicketsList(APIView):
+    def get(self, request, format=None):
+        tickets = Tickets.objects.all()[0:4]
+        serializer = TicketsSerializer(tickets, many=True)
         return Response(serializer.data)
