@@ -112,7 +112,7 @@ class Product(models.Model):
         return self.name_product
     
     def get_absolute_url(self):
-        return f'/{self.id_event_ptoduct.slug}/{self.slug}/'
+        return f'/{self.id_event_product.slug}/{self.slug}/'
     
     def get_image(self):
         if self.image:
@@ -159,7 +159,7 @@ class Ticket(models.Model):
         ordering = ('-date_added',)
     
     def __str__(self):
-        return self.name
+        return self.name_ticket
     
     def get_absolute_url(self):
         return f'/{self.id_event_ticket.slug}/{self.slug}/'

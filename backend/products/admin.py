@@ -5,6 +5,7 @@ from .models import Tour, Product,Event,Ticket, Order
 
 admin.site.register(Order)
 admin.site.register(Tour)
+admin.site.register(Event)
 admin.site.register(Ticket)
 admin.site.register(Product)
 
