@@ -205,6 +205,15 @@ class Order(models.Model):
     quantity_product=models.IntegerField()
     quantity_event=models.IntegerField()
     
+    ORDER_STATUSES=(
+        ('EMPTY','empty'),
+        ('PENDING','pending'),
+        ('COMPLETED','completed'),
+        
+    )
+
+    order_status=models.CharField(max_length=25,choices=ORDER_STATUSES,default=ORDER_STATUSES[0][0])
+
     updated_at=models.DateTimeField(auto_now=True)
     date_added = models.DateTimeField(auto_now_add=True)
 

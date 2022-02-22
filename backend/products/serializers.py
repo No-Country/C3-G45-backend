@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tour, Product, Event,Order
+from .models import Tour, Product, Event, Order, Ticket, Product_Order
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -18,7 +18,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
+        model = Ticket
         fields = (
             "id",
             "name_ticket",
@@ -30,10 +30,10 @@ class TicketSerializer(serializers.ModelSerializer):
             "get_thumbnail"
         )
 
+
 class EventSerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True)
     tickets = TicketSerializer(many=True)
-
 
     class Meta:
         model = Event
@@ -52,51 +52,30 @@ class EventSerializer(serializers.ModelSerializer):
             "tickets",
         )
 
-""" 
-
-class ProductSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Product
-        fields = (
-            "id",
-            "name",
-            "get_absolute_url",
-            "description",
-            "price",
-            "stock",
-            "status_product",
-            "get_image",
-            "get_thumbnail"
-        )
-
-class TourSerializer(serializers.ModelSerializer):
-    products = ProductSerializer(many=True)
-    events = EventSerializer(many=True)
+class Product_OrderSerializer(serializers.ModelSerializer):
+    products= ProductSerializer()
 
     class Meta:
-        model = Tour
-        fields = (
+        model=Product_Order 
+        fields=(
             "id",
-            "name",
-            "artista",
-            "get_absolute_url",
             "products",
-            "events"
         )
+
+
 
 class OrderSerializer(serializers.ModelSerializer):
-    tour = TourSerializer(many=True)
+  
     class Meta:
-        model = Order
-        fields = (
-            "curtomer",
-            "product_order",
-            "event_order",
-            "quantity_event",
-            "quantity_product",
-            "created_at",
-            "updated_at",
-            "our"
+        model=Order 
+        fields=(
+            'id',
+            'id_user',
+            'product_order',
+            'event_order',
+            'quantity_product', 
+            'date_added', 
+            'updated_at',
+            'order_status',
         )
- """
+
