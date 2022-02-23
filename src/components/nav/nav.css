@@ -1,5 +1,0 @@
-.navbar-nav a:hover{
-    color: rgb(64, 165, 224)!important;
-    border-bottom: 2px solid black;
-    transition: 100ms all;
-}
