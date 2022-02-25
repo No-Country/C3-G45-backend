@@ -66,7 +66,7 @@ class Product_OrderSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    product_order= ProductSerializer() #serializers.CharField()
+    product_order= serializers.StringRelatedField() #serializers.CharField()
     quantity_product=serializers.IntegerField()
     order_status=serializers.HiddenField(default="PENDING")
     
@@ -81,7 +81,7 @@ class OrderSerializer(serializers.ModelSerializer):
         )
 
 class OrderDetailSerializer(serializers.ModelSerializer):
-    product_order= ProductSerializer() # serializers.CharField() 
+    product_order= serializers.StringRelatedField() # serializers.CharField() 
     quantity_product=serializers.IntegerField()
     order_status=serializers.CharField(default="PENDING")
     date_added= serializers.DateTimeField()
