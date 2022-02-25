@@ -18,7 +18,7 @@ class CustomUserManager(BaseUserManager):
 
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff',True)
-        extra_fields.setdefault('is_suèruser',True)
+        extra_fields.setdefault('is_superuser',True)
         extra_fields.setdefault('is_active',True)
 
         if extra_fields.get('is_staff') is not True:
@@ -40,7 +40,6 @@ class User(AbstractUser):
     last_name=models.CharField(_('Last Name'), max_length=40,unique=False)
     email=models.EmailField(_('Email'), max_length=80,unique=True)
     created_at=models.DateTimeField(_('Date'),auto_now_add=True)
-
 
     REQUIRED_FIELDS=['username','first_name']
     USERNAME_FIELD='email'

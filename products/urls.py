@@ -8,6 +8,7 @@ urlpatterns = [
 
     #product paths
     path('product-list/', views.ProductsList.as_view()),
+    path("products/<slug:name_product>/", views.Product.as_view(), name="product"),
     #path('products/<slug:event_slug>/<slug:product_slug>/', views.ProductDetail.as_view()),
 
     #ticket paths
@@ -15,7 +16,8 @@ urlpatterns = [
     #path('tickets/<slug:event_slug>/<slug:ticket_slug>/', views.TicketDetail.as_view()),
 
     #order paths
-    path('order-list/', views.OrdersList.as_view()),
+    path('order/', views.OrderCreateListView.as_view(), name='order'),
+    path('order/<int:order_id>/',views.OrderDetailView.as_view(),name='order_detail'),
 
     #path('products/<slug:event_slug>/', views.TourDetail.as_view()),
     #admin authntication

@@ -199,11 +199,11 @@ class Order(models.Model):
 
     # Items
     product_order= models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
-    event_order=models.ForeignKey(Ticket, on_delete=models.CASCADE,null=True)
+    #event_order=models.ForeignKey(Ticket, on_delete=models.CASCADE,null=True)
     
     # Quantity
-    quantity_product=models.IntegerField()
-    quantity_event=models.IntegerField()
+    quantity_product=models.IntegerField(null=True)
+    #quantity_event=models.IntegerField(null=True)
     
     ORDER_STATUSES=(
         ('EMPTY','empty'),
@@ -213,7 +213,6 @@ class Order(models.Model):
     )
 
     order_status=models.CharField(max_length=25,choices=ORDER_STATUSES,default=ORDER_STATUSES[0][0])
-
     updated_at=models.DateTimeField(auto_now=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -225,9 +224,9 @@ class Order(models.Model):
         return f"<Order by {self.id_user}>"
 
 
-class Product_Order(models.Model):
-    id_order=models.ForeignKey(Order, related_name='products_order',on_delete=models.CASCADE,null=True)
-    id_product_order= models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
+class OrderItem(models.Model):
+    id_order=models.ForeignKey(Order, related_name='items',on_delete=models.CASCADE,null=True)
+    id_product_order= models.ForeignKey(Product, related_name='items',on_delete=models.CASCADE,null=True)
     
     def __str__(self):
         #{self.product_order} or {self.event_order}

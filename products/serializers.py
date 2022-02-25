@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tour, Product, Event, Order, Ticket, Product_Order
+from .models import Product, Event, Order, Ticket, OrderItem
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -52,6 +52,7 @@ class EventSerializer(serializers.ModelSerializer):
             "tickets",
         )
 
+""" 
 class Product_OrderSerializer(serializers.ModelSerializer):
     products= ProductSerializer()
 
@@ -61,21 +62,38 @@ class Product_OrderSerializer(serializers.ModelSerializer):
             "id",
             "products",
         )
-
+ """
 
 
 class OrderSerializer(serializers.ModelSerializer):
-  
+    product_order= ProductSerializer() #serializers.CharField()
+    quantity_product=serializers.IntegerField()
+    order_status=serializers.HiddenField(default="PENDING")
+    
+    class Meta:
+        model=Order 
+        fields=(
+            #'id_user',
+            'id',
+            'quantity_product',
+            'order_status',
+            'product_order',
+        )
+
+class OrderDetailSerializer(serializers.ModelSerializer):
+    product_order= ProductSerializer() # serializers.CharField() 
+    quantity_product=serializers.IntegerField()
+    order_status=serializers.CharField(default="PENDING")
+    date_added= serializers.DateTimeField()
+    updated_at= serializers.DateTimeField()
+
     class Meta:
         model=Order 
         fields=(
             'id',
-            'id_user',
-            'product_order',
-            'event_order',
-            'quantity_product', 
-            'date_added', 
-            'updated_at',
+            'quantity_product',
             'order_status',
+            'product_order',
+            'date_added',
+            'updated_at',
         )
-
