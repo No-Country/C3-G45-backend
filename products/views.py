@@ -5,7 +5,7 @@ from django.shortcuts import render,get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import GenericAPIView, RetrieveAPIView
+from rest_framework.generics import GenericAPIView, RetrieveAPIView, ListAPIView
 
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 
@@ -13,17 +13,30 @@ from .models import Product, Event, Tour, Ticket, Order
 from .serializers import ProductSerializer, EventSerializer, TicketSerializer, OrderSerializer, OrderDetailSerializer
 
 class EventsList(APIView):
+    """Shows the list of events"""
     def get(self, request, format=None):
         events =Event.objects.all()[0:4]
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
         
 
-class ProductsList(APIView):
-    def get(self, request, format=None):
+""" class ProductsList(APIView):
+     def get(self, request, format=None):
         products = Product.objects.all()[0:4]
         serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data)  """
+
+class ProductsView(ListAPIView):
+    """Shows the list of products"""
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class ProductDetail(RetrieveAPIView):
+    """Shows in detail the information of a product"""
+    lookup_field="name_product"
+    queryset= Product.objects.all()
+    serializer_class= ProductSerializer
+
 
 class TicketsList(APIView):
     def get(self, request, format=None):
@@ -31,10 +44,12 @@ class TicketsList(APIView):
         serializer = TicketSerializer(tickets, many=True)
         return Response(serializer.data)
 
-class Product(RetrieveAPIView):
-    lookup_field="name_product"
-    queryset= Product.objects.all()
-    serializer_class= ProductSerializer
+
+class TicketDetail(RetrieveAPIView):
+    """Shows in detail the information of a ticket"""
+    lookup_field="name_ticket"
+    queryset= Ticket.objects.all()
+    serializer_class= TicketSerializer
 
 
 class OrderCreateListView(APIView):
@@ -87,17 +102,3 @@ class OrderDetailView(GenericAPIView):
 
     def delete (self, request, order_id):
         pass
-
-""" 
-@api_view(['POST'])
-def search(request):
-    query = request.data.get('query', '')
-
-    if query:
-        products = Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
-    else:
-        return Response({"products": []})
-        
-"""

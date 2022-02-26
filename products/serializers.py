@@ -3,10 +3,12 @@ from .models import Product, Event, Order, Ticket, OrderItem
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    #id_event_product=serializers.StringRelatedField()
     class Meta:
         model = Product
         fields = (
             "id",
+            #"id_event_product",
             "name_product",
             "get_absolute_url",
             "description",
@@ -30,10 +32,10 @@ class TicketSerializer(serializers.ModelSerializer):
             "get_thumbnail"
         )
 
-
 class EventSerializer(serializers.ModelSerializer):
-    products = ProductSerializer(many=True)
+    products =  ProductSerializer(many=True)
     tickets = TicketSerializer(many=True)
+    id_tour = serializers.StringRelatedField()
 
     class Meta:
         model = Event
@@ -50,20 +52,8 @@ class EventSerializer(serializers.ModelSerializer):
             "get_absolute_url",
             "products",
             "tickets",
+            "id_tour"
         )
-
-""" 
-class Product_OrderSerializer(serializers.ModelSerializer):
-    products= ProductSerializer()
-
-    class Meta:
-        model=Product_Order 
-        fields=(
-            "id",
-            "products",
-        )
- """
-
 
 class OrderSerializer(serializers.ModelSerializer):
     product_order= serializers.StringRelatedField() #serializers.CharField()
