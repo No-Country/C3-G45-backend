@@ -198,8 +198,8 @@ class Order(models.Model):
     id_user=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
 
     # Items
-    product_order= models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
-    #event_order=models.ForeignKey(Ticket, on_delete=models.CASCADE,null=True)
+    product_order= models.ForeignKey(Product, on_delete=models.SET_NULL,null=True)
+    #ticket_order=models.ForeignKey(Ticket, on_delete=models.SET_NULL,null=True)
     
     # Quantity
     quantity_product=models.IntegerField(null=True)
