@@ -12,6 +12,9 @@ from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from .models import Product, Event, Tour, Ticket, Order
 from .serializers import ProductSerializer, EventSerializer, TicketSerializer, OrderSerializer, OrderDetailSerializer
 
+from rest_framework.decorators import api_view
+from django.db.models import Q
+
 class EventsList(APIView):
     """Shows the list of events"""
     def get(self, request, format=None):
@@ -26,8 +29,13 @@ class EventsList(APIView):
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)  """
 
-class ProductsView(ListAPIView):
+from rest_framework import filters
+
+class ProductsList(ListAPIView):
     """Shows the list of products"""
+    search_fields = ['name_product','description']
+    filter_backends = (filters.SearchFilter,)
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -102,3 +110,4 @@ class OrderDetailView(GenericAPIView):
 
     def delete (self, request, order_id):
         pass
+
