@@ -195,7 +195,7 @@ class Ticket(models.Model):
 
 class Order(models.Model):
     """Purchased orders """
-    id_user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    id_user=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
 
     # Items
     product_order= models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
