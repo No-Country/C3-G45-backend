@@ -12,7 +12,7 @@ class Tour(models.Model):
     artista= models.CharField(max_length=150, null=True)
     description= models.TextField(blank=True, null=True)
     tour_image=models.ImageField(upload_to='uploads/', blank=True, null=True)
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=100, unique=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -34,11 +34,11 @@ class Event(models.Model):
     """Each event has tickets and products to be sold"""
 
     EVENT_STATUS=(
-        ('PRONTO','pronto'),
-        ('PREVENTA','preventa'),
-        ('DISPONIBLE','disponible'),
-        ('AGOTADO','agotado'),
-        ('SUSPENDIDO','suspendido')          
+        ('SOON','soon'),
+        ('PRESALE','presale'),
+        ('AVAILABLE','available'),
+        ('SOLD OUT','sold out'),
+        ('CANCELLED','cancelled')          
     )
 
     id_tour = models.ForeignKey(Tour, related_name='events', on_delete=models.CASCADE)
@@ -49,9 +49,9 @@ class Event(models.Model):
     date_event= models.DateTimeField()
     city=models.CharField(max_length=255)
     location= models.CharField(max_length=255)
-    slug = models.SlugField()
     image_event = models.ImageField(upload_to='uploads/', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField()
 
     class Meta:
         ordering = ('-date_added',)
@@ -205,14 +205,15 @@ class Order(models.Model):
     quantity_product=models.IntegerField(null=True)
     #quantity_event=models.IntegerField(null=True)
     
-    ORDER_STATUSES=(
-        ('EMPTY','empty'),
+    ORDER_STATUS=(
+        ('CREATED','created'),
         ('PENDING','pending'),
+        ('PAID','paid'),
         ('COMPLETED','completed'),
         
     )
 
-    order_status=models.CharField(max_length=25,choices=ORDER_STATUSES,default=ORDER_STATUSES[0][0])
+    order_status=models.CharField(max_length=25,choices=ORDER_STATUS,default=ORDER_STATUS[0][0])
     updated_at=models.DateTimeField(auto_now=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
