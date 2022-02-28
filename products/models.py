@@ -65,12 +65,12 @@ class Event(models.Model):
     
     def get_image(self):
         if self.image_event:
-            return 'http://127.0.0.1:8000' + self.image_event.url
+            return 'https://no-country-c03-g57-backend.herokuapp.com' + self.image_event.url
         return ''
     
     def get_thumbnail(self):
         if self.thumbnail:
-            return 'http://127.0.0.1:8000' + self.thumbnail.url
+            return 'https://no-country-c03-g57-backend.herokuapp.com' + self.thumbnail.url
 
         else:
             if self.image_event:
