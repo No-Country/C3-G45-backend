@@ -14,8 +14,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "description",
             "price",
             "stock",
-            "get_image",
-            "get_thumbnail"
+            "image"
         )
 
 class TicketSerializer(serializers.ModelSerializer):
@@ -28,14 +27,13 @@ class TicketSerializer(serializers.ModelSerializer):
             "description",
             "price",
             "stock",
-            "get_image",
-            "get_thumbnail"
+            "image"
         )
 
 class EventSerializer(serializers.ModelSerializer):
     products =  ProductSerializer(many=True)
     tickets = TicketSerializer(many=True)
-    id_tour = serializers.StringRelatedField()
+   # id_tour = serializers.StringRelatedField()
 
     class Meta:
         model = Event
@@ -44,15 +42,14 @@ class EventSerializer(serializers.ModelSerializer):
             "name_event",
             "description",           
             "status_event",
-            "get_image",
-            "get_thumbnail",
+            "image_event",
             "date_event",
             "city",
             "location",
-            "get_absolute_url",
+            #"get_absolute_url",
             "products",
             "tickets",
-            "id_tour"
+           # "id_tour"
         )
 
 class OrderSerializer(serializers.ModelSerializer):

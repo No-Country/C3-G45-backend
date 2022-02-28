@@ -3,10 +3,9 @@ from PIL import Image
 from django.core.files import File
 from django.db import models
 from django.contrib.auth import get_user_model
-from decouple import config
 
 User=get_user_model()
-URL= config('URL')
+
 class Tour(models.Model):
     """Tour details for the artist"""
     name_tour = models.CharField(max_length=255)
@@ -25,10 +24,6 @@ class Tour(models.Model):
     def get_absolute_url(self):
         return f'/{self.name_tour.slug}/{self.slug}/'
     
-    def get_image(self):
-        if self.tour_image:
-            return URL + self.tour_image.url
-        return ''
 
 
 class Event(models.Model):
@@ -59,40 +54,6 @@ class Event(models.Model):
     
     def __str__(self):
         return self.name_event
-    
-    def get_absolute_url(self):
-        return f'/{self.id_tour.slug}/{self.slug}/'
-    
-    def get_image(self):
-        if self.image_event:
-            return 'https://no-country-c03-g57-backend.herokuapp.com' + self.image_event.url
-        return ''
-    
-    def get_thumbnail(self):
-        if self.thumbnail:
-            return 'https://no-country-c03-g57-backend.herokuapp.com' + self.thumbnail.url
-
-        else:
-            if self.image_event:
-                self.thumbnail = self.make_thumbnail(self.image_event)
-                self.save()
-                return 'http://127.0.0.1:8000' + self.thumbnail.url
-
-            else:
-                return ''
-    
-    def make_thumbnail(self, image_event, size=(300, 200)):
-        img = Image.open(image_event)
-        img.convert('RGB')
-        img.thumbnail(size)
-
-        thumb_io = BytesIO()
-        img.save(thumb_io, 'JPEG', quality=85)
-
-        thumbnail = File(thumb_io, name=image_event.name)
-
-        return thumbnail
-
 
 class Product(models.Model):
     """Products for Events"""
@@ -112,38 +73,6 @@ class Product(models.Model):
     def __str__(self):
         return self.name_product
     
-    def get_absolute_url(self):
-        return f'/{self.id_event_product.slug}/{self.slug}/'
-    
-    def get_image(self):
-        if self.image:
-            return 'http://127.0.0.1:8000' + self.image.url
-        return ''
-    
-    def get_thumbnail(self):
-        if self.thumbnail:
-            return 'http://127.0.0.1:8000' + self.thumbnail.url
-        else:
-            if self.image:
-                self.thumbnail = self.make_thumbnail(self.image)
-                self.save()
-
-                return 'http://127.0.0.1:8000' + self.thumbnail.url
-            else:
-                return ''
-    
-    def make_thumbnail(self, image, size=(300, 200)):
-        img = Image.open(image)
-        img.convert('RGB')
-        img.thumbnail(size)
-
-        thumb_io = BytesIO()
-        img.save(thumb_io, 'JPEG', quality=85)
-
-        thumbnail = File(thumb_io, name=image.name)
-
-        return thumbnail
-
 class Ticket(models.Model):
     """Tickets for Events """
     id_event_ticket = models.ForeignKey(Event, related_name='tickets', on_delete=models.CASCADE, default=-1)
@@ -162,38 +91,6 @@ class Ticket(models.Model):
     def __str__(self):
         return self.name_ticket
     
-    def get_absolute_url(self):
-        return f'/{self.id_event_ticket.slug}/{self.slug}/'
-    
-    def get_image(self):
-        if self.image:
-            return 'http://127.0.0.1:8000' + self.image.url
-        return ''
-    
-    def get_thumbnail(self):
-        if self.thumbnail:
-            return 'http://127.0.0.1:8000' + self.thumbnail.url
-        else:
-            if self.image:
-                self.thumbnail = self.make_thumbnail(self.image)
-                self.save()
-
-                return 'http://127.0.0.1:8000' + self.thumbnail.url
-            else:
-                return ''
-    
-    def make_thumbnail(self, image, size=(300, 200)):
-        img = Image.open(image)
-        img.convert('RGB')
-        img.thumbnail(size)
-
-        thumb_io = BytesIO()
-        img.save(thumb_io, 'JPEG', quality=85)
-
-        thumbnail = File(thumb_io, name=image.name)
-
-        return thumbnail
-
 class Order(models.Model):
     """Purchased orders """
     id_user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
