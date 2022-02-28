@@ -57,9 +57,9 @@ class EventSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
 
-    product_order= serializers.CharField() # serializers.StringRelatedField() 
-    quantity_product=serializers.IntegerField()
-    order_status=serializers.HiddenField(default="PENDING")
+    product_order= ProductSerializer() #serializers.CharField() # serializers.StringRelatedField() 
+    #quantity_product=serializers.IntegerField()
+    #order_status=serializers.HiddenField(default="PENDING")
     
     class Meta:
         model=Order 

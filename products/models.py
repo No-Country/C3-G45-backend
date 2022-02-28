@@ -3,13 +3,14 @@ from PIL import Image
 from django.core.files import File
 from django.db import models
 from django.contrib.auth import get_user_model
+from decouple import config
 
 User=get_user_model()
-
+URL= config('URL')
 class Tour(models.Model):
     """Tour details for the artist"""
     name_tour = models.CharField(max_length=255)
-    artista= models.CharField(max_length=150, null=True, default="Dua Lipa")
+    artist= models.CharField(max_length=150, null=True, default="Dua Lipa")
     description= models.TextField(blank=True, null=True)
     tour_image=models.ImageField(upload_to='tours/', blank=True, null=True)
     slug = models.SlugField(max_length=100, unique=True)
@@ -26,7 +27,7 @@ class Tour(models.Model):
     
     def get_image(self):
         if self.tour_image:
-            return 'http://127.0.0.1:8000' + self.tour_image.url
+            return URL + self.tour_image.url
         return ''
 
 
@@ -43,7 +44,7 @@ class Event(models.Model):
 
     id_tour = models.ForeignKey(Tour, related_name='events', on_delete=models.CASCADE, default=-1)
     name_event = models.CharField(max_length=255)
-    city=models.CharField(max_length=255)
+    city=models.CharField(max_length=60)
     location= models.CharField(max_length=255)
     date_event= models.DateTimeField()
     status_event= models.CharField(max_length=15, choices=EVENT_STATUS, null=True,default=EVENT_STATUS[0][0])

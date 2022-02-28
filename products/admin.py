@@ -9,8 +9,8 @@ admin.site.register(Ticket)
 
 @admin.register(Tour)
 class TourAdmin(admin.ModelAdmin):
-    list_display = ('name_tour', 'artista')
-    prepopulated_fields = {'slug': ('name_tour','artista')} 
+    list_display = ('name_tour', 'artist')
+    prepopulated_fields = {'slug': ('name_tour','artist')} 
     
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
