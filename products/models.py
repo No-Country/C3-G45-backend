@@ -41,7 +41,7 @@ class Event(models.Model):
         ('CANCELLED','cancelled')          
     )
 
-    id_tour = models.ForeignKey(Tour, related_name='events', on_delete=models.CASCADE)
+    id_tour = models.ForeignKey(Tour, related_name='events', on_delete=models.CASCADE, default=-1)
     name_event = models.CharField(max_length=255)
     city=models.CharField(max_length=255)
     location= models.CharField(max_length=255)
@@ -95,7 +95,7 @@ class Event(models.Model):
 
 class Product(models.Model):
     """Products for Events"""
-    id_event_product = models.ForeignKey(Event, related_name='products', on_delete=models.CASCADE)
+    id_event_product = models.ForeignKey(Event, related_name='products', on_delete=models.CASCADE, default=-1)
     name_product = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=6, decimal_places=2, default=0.0)
@@ -145,7 +145,7 @@ class Product(models.Model):
 
 class Ticket(models.Model):
     """Tickets for Events """
-    id_event_ticket = models.ForeignKey(Event, related_name='tickets', on_delete=models.CASCADE)
+    id_event_ticket = models.ForeignKey(Event, related_name='tickets', on_delete=models.CASCADE, default=-1)
     name_ticket = models.CharField(max_length=50)
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True, null=True)

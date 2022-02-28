@@ -16,8 +16,9 @@ urlpatterns = [
     path('tickets/<slug:name_ticket>/', views.TicketDetail.as_view(),name='ticket_detail'),
 
     #order paths
-    path('order/', views.OrderCreateListView.as_view(), name='order'),
-    path('order/<int:order_id>/',views.OrderDetailView.as_view(),name='order_detail'),
+    path('order/', views.OrderList.as_view(), name='order'),
+    #path('order/', views.OrderCreateListView.as_view(), name='order'),
+    #path('order/<int:order_id>/',views.OrderDetailView.as_view(),name='order_detail'),
 
     
 

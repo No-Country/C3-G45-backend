@@ -5,7 +5,7 @@ from django.shortcuts import render,get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import GenericAPIView, RetrieveAPIView, ListAPIView
+from rest_framework.generics import GenericAPIView, RetrieveAPIView, ListAPIView, ListCreateAPIView
 
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 
@@ -14,6 +14,8 @@ from .serializers import ProductSerializer, EventSerializer, TicketSerializer, O
 
 from rest_framework.decorators import api_view
 from django.db.models import Q
+from rest_framework import filters
+
 
 class EventsList(APIView):
     """Shows the list of events"""
@@ -22,20 +24,10 @@ class EventsList(APIView):
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
         
-
-""" class ProductsList(APIView):
-     def get(self, request, format=None):
-        products = Product.objects.all()[0:4]
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)  """
-
-from rest_framework import filters
-
 class ProductsList(ListAPIView):
     """Shows the list of products"""
     search_fields = ['name_product','description']
     filter_backends = (filters.SearchFilter,)
-
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -44,7 +36,6 @@ class ProductDetail(RetrieveAPIView):
     lookup_field="name_product"
     queryset= Product.objects.all()
     serializer_class= ProductSerializer
-
 
 class TicketsList(APIView):
     def get(self, request, format=None):
@@ -60,6 +51,11 @@ class TicketDetail(RetrieveAPIView):
     serializer_class= TicketSerializer
 
 
+class OrderList(ListCreateAPIView):
+    queryset= Order.objects.all()
+    serializer_class= OrderSerializer
+
+""" 
 class OrderCreateListView(APIView):
     serializer_class= OrderSerializer
     queryset= Order.objects.all()
@@ -85,7 +81,6 @@ class OrderCreateListView(APIView):
         return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)  
 
 class OrderDetailView(GenericAPIView):
-    """ View class for displaying the order in detail"""
     
     serializer_class=OrderDetailSerializer
     #permission_classes=[IsAuthenticated]
@@ -111,3 +106,4 @@ class OrderDetailView(GenericAPIView):
     def delete (self, request, order_id):
         pass
 
+ """
