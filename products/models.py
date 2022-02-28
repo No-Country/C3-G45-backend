@@ -21,9 +21,7 @@ class Tour(models.Model):
     def __str__(self):
         return self.name_tour
 
-    def get_absolute_url(self):
-        return f'/{self.name_tour.slug}/{self.slug}/'
-    
+   
 
 
 class Event(models.Model):

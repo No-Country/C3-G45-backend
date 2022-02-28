@@ -10,7 +10,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "id",
             #"id_event_product",
             "name_product",
-            "get_absolute_url",
             "description",
             "price",
             "stock",
@@ -23,7 +22,6 @@ class TicketSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name_ticket",
-            "get_absolute_url",
             "description",
             "price",
             "stock",
@@ -46,7 +44,6 @@ class EventSerializer(serializers.ModelSerializer):
             "date_event",
             "city",
             "location",
-            #"get_absolute_url",
             "products",
             "tickets",
            # "id_tour"
