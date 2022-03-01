@@ -8,7 +8,6 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = (
             "id",
-            #"id_event_product",
             "name_product",
             "description",
             "price",
@@ -46,39 +45,46 @@ class EventSerializer(serializers.ModelSerializer):
             "location",
             "products",
             "tickets",
-           # "id_tour"
+ )
+
+class OrderItemSerializer(serializers.ModelSerializer):   
+    class Meta:
+        model = OrderItem
+        fields = (
+            "price",
+            "product",
+            "quantity",
         )
 
 class OrderSerializer(serializers.ModelSerializer):
-
-    product_order= ProductSerializer() #serializers.CharField() # serializers.StringRelatedField() 
-    #quantity_product=serializers.IntegerField()
-    #order_status=serializers.HiddenField(default="PENDING")
-    
+    items = OrderItemSerializer(many=True)
     class Meta:
-        model=Order 
-        fields=(
-            #'id_user',
-            'id',
-            'quantity_product',
-            'order_status',
-            'product_order',
+        model = Order
+        fields = (
+            "id",
+            "first_name",
+            "items",
         )
+  
+    def create(self, validated_data):
+        items_data = validated_data.pop('items')
+        order = Order.objects.create(**validated_data)
+
+        for item_data in items_data:
+            OrderItem.objects.create(order=order, **item_data)
+            
+        return order
 
 class OrderDetailSerializer(serializers.ModelSerializer):
-    product_order= serializers.StringRelatedField() # serializers.CharField() 
-    quantity_product=serializers.IntegerField()
-    order_status=serializers.CharField(default="PENDING")
-    date_added= serializers.DateTimeField()
-    updated_at= serializers.DateTimeField()
-
+    items = OrderItemSerializer(many=True,read_only=True)
+    date_added = serializers.DateTimeField(read_only=True)
     class Meta:
-        model=Order 
-        fields=(
-            'id',
-            'quantity_product',
-            'order_status',
-            'product_order',
-            'date_added',
-            'updated_at',
+        model = Order
+        fields = (
+            "id",
+            "first_name",
+            "date_added",
+            "items",
         )
+    
+    

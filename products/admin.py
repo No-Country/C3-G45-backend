@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from .models import Tour, Product,Event,Ticket, Order
+from .models import Tour, Product,Event,Ticket, Order, OrderItem
 # Register your models here.
 
 admin.site.register(Order)
+admin.site.register(OrderItem)
 admin.site.register(Ticket)
-
 
 @admin.register(Tour)
 class TourAdmin(admin.ModelAdmin):
