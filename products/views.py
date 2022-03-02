@@ -73,63 +73,36 @@ class TicketDetail(RetrieveAPIView):
     queryset= Ticket.objects.all()
     serializer_class= TicketSerializer
 
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def checkout(request):
-    serializer = OrderSerializer(data=request.data)
-
-    if serializer.is_valid():
-        paid_amount = sum(item.get('quantity') * item.get('product').price for item in serializer.validated_data['items'])
-
-        try:
-            serializer.save(user=request.user, paid_amount=paid_amount)
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        except Exception:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 class OrdersList(APIView):
    # authentication_classes = [authentication.TokenAuthentication]
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
         orders = Order.objects.filter(user=request.user)
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
-class Orders(ListCreateAPIView):
-    """Shows the list of products"""
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
-
 class OrderView(GenericAPIView):
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
-    permission_classes=[IsAuthenticated]
+    permission_classes=[IsAuthenticated,IsAdminUser]
 
     def get(self,request):
         orders=Order.objects.all()
-
         serializer=self.serializer_class(instance=orders,many=True)
 
         return Response(data=serializer.data,status=status.HTTP_200_OK)
     
     def post(self,request):
-
         serializer=self.serializer_class(data=request.data)
 
         if serializer.is_valid():
             serializer.save(user=request.user)
-
-            print(f"\n {serializer.data}")
+            #print(f"\n {serializer.data}")
 
             return Response(data=serializer.data,status=status.HTTP_201_CREATED)
 
         return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST) 
-
 
 class OrderIdView(GenericAPIView):
     serializer_class=OrderDetailSerializer
@@ -147,7 +120,6 @@ class OrderIdView(GenericAPIView):
     def put(self,request,order_id):
         
         order=get_object_or_404(Order,pk=order_id)
-        
         serializer=self.serializer_class(instance=order,data=request.data)
 
         if serializer.is_valid():
@@ -246,4 +218,31 @@ class OrderDetailView(GenericAPIView):
     def delete (self, request, order_id):
         pass
 
+"""
+"""
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def checkout(request):
+    serializer = OrderSerializer(data=request.data)
+
+    if serializer.is_valid():
+        paid_amount = sum(item.get('quantity') * item.get('product').price for item in serializer.validated_data['items'])
+
+        try:
+            serializer.save(user=request.user, paid_amount=paid_amount)
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Exception:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+ """
+
+""" 
+#Class replaced by OrderView
+class Orders(ListCreateAPIView):
+    
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
  """
