@@ -1,23 +1,19 @@
 from django.http import Http404
-from django.db.models import Q
 from django.shortcuts import render,get_object_or_404
 
-from rest_framework import status
+from rest_framework import status, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView, RetrieveAPIView, ListAPIView, ListCreateAPIView
-
-from rest_framework.permissions import IsAuthenticated,IsAdminUser
-
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated,IsAdminUser
 
 from .models import Product, Event, Tour, Ticket, Order
 from .serializers import ProductSerializer, EventSerializer, TicketSerializer, OrderSerializer,OrderDetailSerializer
 
-from rest_framework.decorators import api_view
-from django.db.models import Q
-from rest_framework import filters
+from django.contrib.auth import get_user_model
 
+User=get_user_model()
 
 class EventsList(APIView):
     """Shows the list of events"""
@@ -168,6 +164,30 @@ class OrderIdView(GenericAPIView):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+class UserOrdersView(GenericAPIView):
+    serializer_class= OrderDetailSerializer 
+    permission_classes= [IsAuthenticated,IsAdminUser]
+
+    def get(self,request,user_id):
+        user=User.objects.get(pk=user_id)
+
+        orders=Order.objects.all().filter(user=user)
+        serializer=self.serializer_class(instance=orders,many=True)
+
+        return Response(data=serializer.data,status=status.HTTP_200_OK)
+
+class UserOrderDetailView(GenericAPIView):
+    serializer_class= OrderDetailSerializer
+    permission_classes=[IsAuthenticated,IsAdminUser]
+
+    def get(self,request,user_id,order_id):
+        user=User.objects.get(pk=user_id)
+
+        order=Order.objects.all().filter(user=user).get(pk=order_id)
+        serializer=self.serializer_class(instance=order)
+
+        return Response(data=serializer.data,status=status.HTTP_200_OK)
 
 """ 
 class OrderList(ListCreateAPIView):
