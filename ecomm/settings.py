@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'djoser',
+    'drf_yasg',
     # Image storage
     'cloudinary_storage',
     'cloudinary',
@@ -185,4 +186,17 @@ JAZZMIN_SETTINGS = {
     "site_header":"Ecomm Dashboard",
     "order_with_respect_to": ["products.tour", "products.event", "products.product", "products.ticket", "products.order", "products.orderitem"],
     
+}
+
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Basic': {
+            'type': 'basic'
+      },
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
 }
