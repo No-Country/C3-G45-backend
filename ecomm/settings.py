@@ -34,6 +34,9 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    #admin teplate
+    'jazzmin',
+    #django defaut apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,6 +54,7 @@ INSTALLED_APPS = [
     # Image storage
     'cloudinary_storage',
     'cloudinary',
+    
 ]
 
 CORS_ALLOWED_ORIGINS=[
@@ -174,3 +178,11 @@ CLOUDINARY_STORAGE = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+JAZZMIN_SETTINGS = {
+    "site_title":"Ecomm Dashboard",
+    "site_header":"Ecomm Dashboard",
+    "order_with_respect_to": ["products.tour", "products.event", "products.product", "products.ticket", "products.order", "products.orderitem"],
+    
+}
