@@ -47,6 +47,13 @@ class EventSerializer(serializers.ModelSerializer):
             "tickets",
  )
 
+class TourSerializer(serializers.ModelSerializer):
+    events =  EventSerializer(many=True)
+    
+    class Meta:
+        model = Event
+        fields = ('__all__')
+
 class OrderItemSerializer(serializers.ModelSerializer):   
     class Meta:
         model = OrderItem
