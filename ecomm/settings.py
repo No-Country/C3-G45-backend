@@ -34,7 +34,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -178,14 +177,6 @@ CLOUDINARY_STORAGE = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-"""
-JAZZMIN_SETTINGS = {
-    "site_title":"Ecomm Dashboard",
-    "site_header":"Ecomm Dashboard",
-    "order_with_respect_to": ["products.tour", "products.event", "products.product", "products.ticket", "products.order", "products.orderitem"],
-    
-}
-"""
 SWAGGER_SETTINGS = {
    'SECURITY_DEFINITIONS': {
       'Basic': {
