@@ -28,7 +28,7 @@ urlpatterns = [
     path('api/v1/', include('products.urls')),
     path('auth/',include('authentication.urls')),
     path('auth/', include('djoser.urls.jwt')),
-    path('orders/', include('products.urls')),
+    #path('orders/', include('products.urls')),
     # swagger urls
     path('swagger<format>.json|.yaml/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
