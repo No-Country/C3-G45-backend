@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'djoser',
-    'drf_yasg',
+    #'drf_yasg',
     # Image storage
     'cloudinary_storage',
     'cloudinary',
@@ -176,7 +176,7 @@ CLOUDINARY_STORAGE = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+"""
 SWAGGER_SETTINGS = {
    'SECURITY_DEFINITIONS': {
       'Basic': {
@@ -189,3 +189,4 @@ SWAGGER_SETTINGS = {
       }
    }
 }
+"""
