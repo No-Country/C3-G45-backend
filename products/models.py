@@ -98,10 +98,13 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order=models.ForeignKey(Order, related_name='items',on_delete=models.CASCADE,null=True)
-    product= models.ForeignKey(Product, related_name='items',on_delete=models.CASCADE,null=True)
+    product= models.ForeignKey(Product, related_name='items',on_delete=models.CASCADE,null=True, blank=True)
+    ticket= models.ForeignKey(Ticket, related_name='ticket',on_delete=models.CASCADE,null=True, blank=True)
+
     price = models.DecimalField(max_digits=8, decimal_places=2,blank=True, null=True)
-    quantity = models.IntegerField(default=1)
+    quantity = models.IntegerField(default=0)
+    quantity_tickets = models.IntegerField(default=0)
     
     def __str__(self):
         #return '%s' % self.id
-        return f"Id {self.id}: {self.product} by {self.order.user} at {self.order.date_added}"
+        return f"Id {self.id} by {self.order.user} at {self.order.date_added}"

@@ -36,4 +36,4 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter=['date_added']
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ('order', 'product', 'quantity')
+    list_display = ('order', 'product', 'quantity', "ticket", "quantity_tickets")
