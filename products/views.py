@@ -9,11 +9,15 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 
 from .models import Product, Event, Tour, Ticket, Order
-from .serializers import ProductSerializer, EventSerializer, TicketSerializer, OrderSerializer,OrderDetailSerializer
+from .serializers import ProductSerializer, EventSerializer, TicketSerializer, OrderSerializer,OrderDetailSerializer,TourSerializer
 
 from django.contrib.auth import get_user_model
 
 User=get_user_model()
+
+class ToursList(ListAPIView):
+    queryset= Tour.objects.all()
+    serializer_class= TourSerializer
 
 class EventsList(APIView):
     """Shows the list of events"""
@@ -55,11 +59,11 @@ class ProductsList(ListCreateAPIView):
 
 class ProductDetail(RetrieveAPIView):
     """Shows in detail the information of a product"""
-    lookup_field="name_product"
+    lookup_field="slug"
     queryset= Product.objects.all()
     serializer_class= ProductSerializer
 
-class TicketsList(APIView):
+class TicketsList(ListCreateAPIView):
     """Shows the list of tickets"""
     search_fields = ['name_ticket','description']
     filter_backends = (filters.SearchFilter,)
@@ -69,7 +73,7 @@ class TicketsList(APIView):
 
 class TicketDetail(RetrieveAPIView):
     """Shows in detail the information of a ticket"""
-    lookup_field="name_ticket"
+    lookup_field="slug"
     queryset= Ticket.objects.all()
     serializer_class= TicketSerializer
 

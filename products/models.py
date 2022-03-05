@@ -68,13 +68,13 @@ class Product(models.Model):
     
 class Ticket(models.Model):
     """Tickets for Events """
-    id_event_ticket = models.ForeignKey(Event, related_name='tickets', on_delete=models.CASCADE, default=-1)
+    event = models.ForeignKey(Event, related_name='tickets', on_delete=models.CASCADE, default=-1)
     name_ticket = models.CharField(max_length=50)
-    slug = models.SlugField(unique=True)
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     stock=models.IntegerField(blank=True, null=True)
     image = models.ImageField(upload_to='tickets/', blank=True, null=True)
+    slug = models.SlugField(unique=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -104,4 +104,4 @@ class OrderItem(models.Model):
     
     def __str__(self):
         #return '%s' % self.id
-        return f"Id {self.id} {self.product} by {self.order.user} "
+        return f"Id {self.id}: {self.product} by {self.order.user} at {self.order.date_added}"

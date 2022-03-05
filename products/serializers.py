@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Event, Order, Ticket, OrderItem
+from .models import Product, Event, Order, Ticket, OrderItem,Tour
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -12,7 +12,8 @@ class ProductSerializer(serializers.ModelSerializer):
             "description",
             "price",
             "stock",
-            "image"
+            "image",
+            "slug"
         )
 
 class TicketSerializer(serializers.ModelSerializer):
@@ -24,7 +25,8 @@ class TicketSerializer(serializers.ModelSerializer):
             "description",
             "price",
             "stock",
-            "image"
+            "image",
+            "slug"
         )
 
 class EventSerializer(serializers.ModelSerializer):
@@ -48,17 +50,16 @@ class EventSerializer(serializers.ModelSerializer):
  )
 
 class TourSerializer(serializers.ModelSerializer):
-    events =  EventSerializer(many=True)
-    
+    events = EventSerializer(many=True)
     class Meta:
-        model = Event
+        model = Tour
         fields = ('__all__')
 
 class OrderItemSerializer(serializers.ModelSerializer):   
     class Meta:
         model = OrderItem
         fields = (
-            "price",
+            #"price",
             "product",
             "quantity",
         )
@@ -69,7 +70,7 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = (
             "id",
-            "first_name",
+            #"first_name",
             "items",
         )
   
@@ -89,7 +90,7 @@ class OrderDetailSerializer(serializers.ModelSerializer):
         model = Order
         fields = (
             "id",
-            "first_name",
+            #"first_name",
             "date_added",
             "items",
         )
