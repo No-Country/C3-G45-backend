@@ -11,6 +11,11 @@ from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from .models import Product, Event, Tour, Ticket, Order
 from .serializers import ProductSerializer, EventSerializer, TicketSerializer, OrderSerializer,OrderDetailSerializer,TourSerializer
 
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
+from django.conf import settings
+
 from django.contrib.auth import get_user_model
 
 User=get_user_model()
@@ -86,10 +91,11 @@ class OrdersList(APIView):
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
+
 class OrderView(GenericAPIView):
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
-    permission_classes=[IsAuthenticated,IsAdminUser]
+    permission_classes=[IsAuthenticated]#,IsAdminUser
 
     def get(self,request):
         orders=Order.objects.all()
@@ -103,6 +109,13 @@ class OrderView(GenericAPIView):
         if serializer.is_valid():
             serializer.save(user=request.user)
             #print(f"\n {serializer.data}")
+
+            subject = 'Purchase successful'
+            message = 'Your purschase was processed'
+            recipient = request.user.email
+            send_mail(subject, 
+              message, settings.EMAIL_HOST_USER, [recipient], fail_silently=False)
+            messages.success(request, 'Success!')
 
             return Response(data=serializer.data,status=status.HTTP_201_CREATED)
 
