@@ -1,11 +1,11 @@
-from django.http import Http404
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
 
 from rest_framework import status, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView, RetrieveAPIView, ListAPIView, ListCreateAPIView
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 
 from .models import Product, Event, Tour, Ticket, Order
@@ -13,7 +13,6 @@ from .serializers import ProductSerializer, EventSerializer, TicketSerializer, O
 
 from django.contrib import messages
 from django.core.mail import send_mail
-from django.shortcuts import render, redirect
 from django.conf import settings
 
 from django.contrib.auth import get_user_model
@@ -91,7 +90,6 @@ class OrdersList(APIView):
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
-
 class OrderView(GenericAPIView):
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
@@ -105,16 +103,22 @@ class OrderView(GenericAPIView):
     
     def post(self,request):
         serializer=self.serializer_class(data=request.data)
+        user = request.user
 
         if serializer.is_valid():
-            serializer.save(user=request.user)
-            #print(f"\n {serializer.data}")
-
+            serializer.save(user=user)
+            
+            #Email confirmation
+            customer={'username':user.first_name}
             subject = 'Purchase successful'
-            message = 'Your purschase was processed'
+            message = 'Your purschase was successful'
+            email_template='success_email.html'
+            
+            html_message = render_to_string(email_template, context=customer)
             recipient = request.user.email
-            send_mail(subject, 
-              message, settings.EMAIL_HOST_USER, [recipient], fail_silently=False)
+            send_mail(subject, message,
+              settings.EMAIL_HOST_USER, [recipient], 
+              html_message=html_message, fail_silently=False)
             messages.success(request, 'Success!')
 
             return Response(data=serializer.data,status=status.HTTP_201_CREATED)
