@@ -80,7 +80,7 @@ class OrdersList(APIView):
 class OrderView(GenericAPIView):
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
-    permission_classes=[IsAuthenticated]#,IsAdminUser
+    #permission_classes=[IsAuthenticated]#,IsAdminUser
 
     def get(self,request):
         orders=Order.objects.all()
