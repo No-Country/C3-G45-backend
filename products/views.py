@@ -104,8 +104,8 @@ class OrderView(GenericAPIView):
             html_message = render_to_string(email_template, context=customer)
             recipient = request.user.email
             send_mail(subject, message,
-              settings.EMAIL_HOST_USER, [recipient], 
-              html_message=html_message, fail_silently=False)
+              settings.EMAIL_HOST_USER, [recipient], fail_silently=False)
+              #html_message=html_message, 
             messages.success(request, 'Success!')
  
             return Response(data=serializer.data,status=status.HTTP_201_CREATED)

@@ -183,6 +183,7 @@ CLOUDINARY_STORAGE = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#Email configuration
 EMAIL_HOST = 'smtp.gmail.com' #config('EMAIL_HOST')
 EMAIL_USE_TLS = True #config('EMAIL_USE_TLS', default=True, cast=bool)
 EMAIL_PORT = 578 #config('EMAIL_PORT', default=578, cast=int)
