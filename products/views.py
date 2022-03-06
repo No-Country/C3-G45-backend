@@ -80,7 +80,7 @@ class OrdersList(APIView):
 class OrderView(GenericAPIView):
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
-    #permission_classes=[IsAuthenticated]#,IsAdminUser
+    permission_classes=[IsAuthenticated]#,IsAdminUser
 
     def get(self,request):
         orders=Order.objects.all()
@@ -90,13 +90,13 @@ class OrderView(GenericAPIView):
     
     def post(self,request):
         serializer=self.serializer_class(data=request.data)
-        user = request.user
+        
 
         if serializer.is_valid():
-            serializer.save(user=user)
+            serializer.save(user=request.user)
             
             #Email confirmation
-            customer = {'username':user.first_name}
+            customer = {'username': request.user.first_name}
             subject = 'Purchase successful'
             message = 'Your purschase was successful'
             email_template = 'success_email.html'
