@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'cloudinary',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
+""" 
 CORS_ALLOWED_ORIGINS=[
     "http://localhost",
     "https://no-country-c03-g57-backend.herokuapp.com",
@@ -64,7 +66,7 @@ CORS_ORIGIN_WHITELIST =[
     "https://no-country-c03-g57-backend.herokuapp.com",
     "https://no-country-c03-g57-frontend.herokuapp.com"
 ]
-
+ """
 
 AUTH_USER_MODEL='authentication.User'
 
