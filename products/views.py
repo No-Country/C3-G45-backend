@@ -158,8 +158,11 @@ class UserOrderDetailView(GenericAPIView):
     serializer_class= OrderDetailSerializer
     permission_classes=[IsAuthenticated]
 
-    def get(self,request,user_id,order_id):
+    def get(self,request,user_id,order_id, user_email):
         user=User.objects.get(pk=user_id)
+        #user=User.objects.get(pk=user_email)
+        #print(user_email)
+
         order=Order.objects.all().filter(user=user).get(pk=order_id)
         serializer=self.serializer_class(instance=order)
 
