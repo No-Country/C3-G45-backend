@@ -41,3 +41,13 @@ class UserCreationSerializer(serializers.ModelSerializer):
         new_user.save()
 
         return new_user
+
+class UserDetail(serializers.ModelSerializer):
+    class Meta:
+        model=User
+        fields=[
+            'id',
+            'username', 
+            'email', 
+            'slug'
+            ]

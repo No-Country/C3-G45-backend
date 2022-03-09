@@ -46,7 +46,7 @@ class User(AbstractUser):
     USERNAME_FIELD='email'
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.username)
+        self.slug = slugify(self.email)
         super(User, self).save(*args, **kwargs)
 
     def __str__(self):

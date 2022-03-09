@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics,status
 from rest_framework.response import Response
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated,IsAdminUser
 
 from .  import serializers
 
@@ -25,6 +26,9 @@ class UserCreateView(generics.GenericAPIView):
 
 class UserDetail(RetrieveAPIView):
     """Shows in detail the information of a user"""
+
+    permission_classes=[IsAuthenticated]
+
     lookup_field="slug"
     queryset= User.objects.all()
-    serializer_class= serializers.UserCreationSerializer
+    serializer_class= serializers.UserDetail
