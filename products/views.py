@@ -95,8 +95,9 @@ class OrderView(GenericAPIView):
         if serializer.is_valid():
             serializer.save(user=request.user)
             
-            #Email confirmation
-            """ customer = {'username': request.user.first_name}
+            #Email conirmation
+            """
+            customer = {'username': request.user.first_name}
             subject = 'Purchase successful'
             message = 'Your purschase was successful'
             email_template = 'success_email.html'
@@ -106,8 +107,8 @@ class OrderView(GenericAPIView):
             send_mail(subject, message,
               settings.EMAIL_HOST_USER, [recipient], fail_silently=False)
               #html_message=html_message, 
-            messages.success(request, 'Success!') """
- 
+            messages.success(request, 'Success!')
+ """
             return Response(data=serializer.data,status=status.HTTP_201_CREATED)
 
         return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST) 
