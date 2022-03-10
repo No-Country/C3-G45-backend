@@ -47,13 +47,26 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'djoser'
+    'djoser',
+    # Image storage
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
+""" 
 CORS_ALLOWED_ORIGINS=[
-    "http://localhost:8080",
-    "https://no-country-c03-g57-backend.herokuapp.com"
+    "http://localhost",
+    "https://no-country-c03-g57-backend.herokuapp.com",
+    "https://no-country-c03-g57-frontend.herokuapp.com"
 ]
+
+CORS_ORIGIN_WHITELIST =[
+    "http://localhost",
+    "https://no-country-c03-g57-backend.herokuapp.com",
+    "https://no-country-c03-g57-frontend.herokuapp.com"
+]
+ """
 
 AUTH_USER_MODEL='authentication.User'
 
@@ -87,7 +100,7 @@ ROOT_URLCONF = 'ecomm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -156,11 +169,26 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 STATIC_ROOT=BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUD_NAME'),
+    'API_KEY': config('API_KEY'),
+    'API_SECRET': config('API_SECRET')
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#Email configuration
+EMAIL_BACKEND= 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com' #config('EMAIL_HOST')
+EMAIL_USE_TLS = True #config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_PORT = 578 #config('EMAIL_PORT', default=578, cast=int)
+EMAIL_HOST_USER = 'gomywebbiz@gmail.com' #config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = 'cesbbqqubjghqzko' #config('EMAIL_HOST_PASSWORD')

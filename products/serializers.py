@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Event, Order, Ticket, OrderItem
+from .models import Product, Event, Order, Ticket, OrderItem,Tour
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -8,14 +8,12 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = (
             "id",
-            #"id_event_product",
             "name_product",
-            "get_absolute_url",
             "description",
             "price",
             "stock",
-            "get_image",
-            "get_thumbnail"
+            "image",
+            "slug"
         )
 
 class TicketSerializer(serializers.ModelSerializer):
@@ -24,18 +22,17 @@ class TicketSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name_ticket",
-            "get_absolute_url",
             "description",
             "price",
             "stock",
-            "get_image",
-            "get_thumbnail"
+            "image",
+            "slug"
         )
 
 class EventSerializer(serializers.ModelSerializer):
     products =  ProductSerializer(many=True)
     tickets = TicketSerializer(many=True)
-    id_tour = serializers.StringRelatedField()
+   # id_tour = serializers.StringRelatedField()
 
     class Meta:
         model = Event
@@ -44,47 +41,59 @@ class EventSerializer(serializers.ModelSerializer):
             "name_event",
             "description",           
             "status_event",
-            "get_image",
-            "get_thumbnail",
+            "image_event",
             "date_event",
             "city",
             "location",
-            "get_absolute_url",
             "products",
             "tickets",
-            "id_tour"
+ )
+
+class TourSerializer(serializers.ModelSerializer):
+    events = EventSerializer(many=True)
+    class Meta:
+        model = Tour
+        fields = ('__all__')
+
+class OrderItemSerializer(serializers.ModelSerializer):   
+    class Meta:
+        model = OrderItem
+        fields = (
+            "product",
+            "ticket",
+            "quantity",
+            "quantity_tickets"
         )
 
 class OrderSerializer(serializers.ModelSerializer):
-
-    product_order= ProductSerializer() #serializers.CharField() # serializers.StringRelatedField() 
-    #quantity_product=serializers.IntegerField()
-    #order_status=serializers.HiddenField(default="PENDING")
-    
+    items = OrderItemSerializer(many=True)
     class Meta:
-        model=Order 
-        fields=(
-            #'id_user',
-            'id',
-            'quantity_product',
-            'order_status',
-            'product_order',
+        model = Order
+        fields = (
+            "id",
+            #"first_name",
+            "items",
         )
+  
+    def create(self, validated_data):
+        items_data = validated_data.pop('items')
+        order = Order.objects.create(**validated_data)
+
+        for item_data in items_data:
+            OrderItem.objects.create(order=order, **item_data)
+            
+        return order
 
 class OrderDetailSerializer(serializers.ModelSerializer):
-    product_order= serializers.StringRelatedField() # serializers.CharField() 
-    quantity_product=serializers.IntegerField()
-    order_status=serializers.CharField(default="PENDING")
-    date_added= serializers.DateTimeField()
-    updated_at= serializers.DateTimeField()
-
+    items = OrderItemSerializer(many=True,read_only=True)
+    date_added = serializers.DateTimeField(read_only=True)
     class Meta:
-        model=Order 
-        fields=(
-            'id',
-            'quantity_product',
-            'order_status',
-            'product_order',
-            'date_added',
-            'updated_at',
+        model = Order
+        fields = (
+            "id",
+            #"first_name",
+            "date_added",
+            "items",
         )
+    
+    

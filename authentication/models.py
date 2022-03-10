@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import ugettext_lazy as _
-
+from django.utils.text import slugify
 # Create your models here.
 class CustomUserManager(BaseUserManager):
     def create_user(self,email, password, **extra_fields):
@@ -40,9 +40,14 @@ class User(AbstractUser):
     last_name=models.CharField(_('Last Name'), max_length=40,unique=False)
     email=models.EmailField(_('Email'), max_length=80,unique=True)
     created_at=models.DateTimeField(_('Date'),auto_now_add=True)
+    slug = models.SlugField(unique=True, null=True)
 
     REQUIRED_FIELDS=['username','first_name']
     USERNAME_FIELD='email'
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.email)
+        super(User, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"User {self.email}"
